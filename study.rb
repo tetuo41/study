@@ -21,7 +21,7 @@ module ApiCommonModule
   return JSON.parse(json)
   end
   # Make args to string
-  def makeArg(args)
+  def make_arg(args)
     arg_array = []
     args.each do |arg|
       arg_array << arg.to_a.join("=") if arg.values != [nil]
@@ -108,7 +108,7 @@ class ATNDS
     args << {:start      => @arg.fetch(:start,nil)}
     args << {:count      => @arg.fetch(:count,nil)}
     args << {:format     => @arg.fetch(:format,nil)}
-    @api_url = @api_url + self.makeArg(args)
+    @api_url = @api_url + self.make_arg(args)
   end
 
   def set_event_data(eventData)
@@ -177,7 +177,7 @@ class Zusaar
     args << {:start      => @arg.fetch(:start,nil)}
     args << {:count      => @arg.fetch(:count,nil)}
     args << {:format     => @arg.fetch(:format,nil)}
-    @api_url = @api_url + self.makeArg(args)
+    @api_url = @api_url + self.make_arg(args)
   end
 
   def set_event_data(eventData)
@@ -247,7 +247,7 @@ class Connpass
     args << {:series_id  => @arg.fetch(:series_id,nil)}
     args << {:count      => @arg.fetch(:count,nil)}
     args << {:format     => @arg.fetch(:format,nil)}
-    @api_url = @api_url + self.makeArg(args)  
+    @api_url = @api_url + self.make_arg(args)  
   end
 
   def set_event_data(eventData)
@@ -320,7 +320,7 @@ class Doorkeeper
     args << {:since    => @arg.fetch(:since,nil)}
     args << {:until    => @arg.fetch(:until,nil)}
     args << {:callback => @arg.fetch(:callback,nil)}
-    @api_url = @api_url + self.makeArg(args)
+    @api_url = @api_url + self.make_arg(args)
   end
 
   def set_event_data(eventData)
