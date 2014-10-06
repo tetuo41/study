@@ -31,7 +31,7 @@ module ApiCommonModule
 end
 
 # ==========================================
-class Event_ATND
+class EventATND
   attr_accessor :event_id, :title, :catch, :description
   attr_accessor :event_url, :started_at, :ended_at
   attr_accessor :url, :limit, :address, :place, :lat
@@ -39,7 +39,7 @@ class Event_ATND
   attr_accessor :owner_twitter_id, :accepted, :waiting, :updated_at
 end
 
-class Event_zusaar
+class EventZusaar
   attr_accessor :event_id, :title, :catch
   attr_accessor :description, :event_url, :started_at, :ended_at
   attr_accessor :pay_type, :url, :limit, :address
@@ -47,7 +47,7 @@ class Event_zusaar
   attr_accessor :accepted, :waiting, :updated_at
 end
 
-class Event_connpass
+class EventConnpass
   attr_accessor :event_id, :title, :catch
   attr_accessor :description, :event_url, :hash_tag, :started_at, :ended_at
   attr_accessor :limit, :event_type, :series, :id
@@ -56,7 +56,7 @@ class Event_connpass
   attr_accessor :owner_display_name, :accepted, :waiting, :updated_at
 end
 
-class Event_doorkeeper
+class EventDoorkeeper
   attr_accessor :title, :id, :starts_at, :ends_at, :venue_name
   attr_accessor :address, :lat, :long, :ticket_limit
   attr_accessor :published_at, :updated_at
@@ -83,7 +83,7 @@ class ATNDS
     @events      = []
 
     loop do 
-      self.makeUrl
+      self.make_url
       break if self.read_json["events"].size == 0
       set_event_data(self.read_json)
       arg[:start] = arg[:start] + 100
@@ -91,7 +91,7 @@ class ATNDS
   end
 
   # URL作成
-  def makeUrl
+  def make_url
     @api_url = ATNDS_API_URL
     args     = []
     args << {:event_id   => @arg.fetch(:event_id,nil)}
@@ -114,7 +114,7 @@ class ATNDS
   def set_event_data(eventData)
     eventData["events"].each do |event|
       event = event["event"]
-      eve   = Event_ATND.new
+      eve   = EventATND.new
       eve.event_id         = event["event_id"]
       eve.title            = event["title"]
       eve.catch            = event["catch"]
@@ -154,7 +154,7 @@ class Zusaar
     @events      = []
 
     loop do 
-      self.makeUrl
+      self.make_url
       break if self.read_json["event"].size == 0
       set_event_data(self.read_json)
       arg[:start] = arg[:start] + 100
@@ -162,7 +162,7 @@ class Zusaar
   end
 
   # URL作成
-  def makeUrl
+  def make_url
     @api_url = ZUSAAR_API_URL
     args     = []
     args << {:event_id   => @arg.fetch(:event_id,nil)}
@@ -184,7 +184,7 @@ class Zusaar
     # p eventData["results_returned"]
     # p eventData["results_start"]
     eventData["event"].each do |event|
-      eve = Event_zusaar.new
+      eve = EventZusaar.new
       eve.event_id          = event["event_id"]
       eve.title             = event["title"]
       eve.catch             = event["catch"]
@@ -225,7 +225,7 @@ class Connpass
   
 
     loop do 
-      self.makeUrl
+      self.make_url
       break if self.read_json["events"].size == 0
       set_event_data(self.read_json)
       arg[:start] = arg[:start] + 100
@@ -233,7 +233,7 @@ class Connpass
   end
 
   # URL作成
-  def makeUrl
+  def make_url
     args = []
     args << {:event_id   => @arg.fetch(:event_id,nil)}
     args << {:keyword    => @arg.fetch(:keyword,nil)}
@@ -255,7 +255,7 @@ class Connpass
     # p eventData["results_available"]
     # p eventData["results_start"]
     eventData["events"].each do |event|
-      eve = Event_connpass.new
+      eve = EventConnpass.new
       eve.event_id           = event["event_id"]
       eve.title              = event["title"]
       eve.catch              = event["catch"]
@@ -302,7 +302,7 @@ class Doorkeeper
     @events      = []
     
     loop do
-      self.makeUrl
+      self.make_url
       break if (self.read_json).size == 0
       self.set_event_data(self.read_json)
       arg[:page] = arg[:page] + 1
@@ -310,7 +310,7 @@ class Doorkeeper
   end
 
   # URL作成
-  def makeUrl
+  def make_url
     @api_url = DOORKEEPER_API_URL
     @api_url = @api_url + 'events'
       args     = []
@@ -325,7 +325,7 @@ class Doorkeeper
 
   def set_event_data(eventData)
     eventData.each do |event|
-      eve = Event_doorkeeper.new
+      eve = EventDoorkeeper.new
       eve.title        = event["event"]["title"]
       eve.id           = event["event"]["id"]
       eve.starts_at    = event["event"]["starts_at"]
@@ -348,7 +348,7 @@ class Doorkeeper
 end
 
 # ==========================================
-options = {:ym => "201409"}
+options = {:ym => "201410"}
 result = ATNDS.new(options)
 result.events.each { |data| p "#{data.started_at} : #{data.title} : #{data.event_url}" }
 result = Zusaar.new(options)
