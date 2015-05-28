@@ -348,7 +348,7 @@ class Doorkeeper
 end
 
 # ==========================================
-options = {:ym => "201410"}
+options = {:ym => Time.now.strftime("%Y%m")}
 result = ATNDS.new(options)
 result.events.each { |data| p "#{data.started_at} : #{data.title} : #{data.event_url}" }
 result = Zusaar.new(options)
