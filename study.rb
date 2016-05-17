@@ -349,12 +349,43 @@ end
 
 # ==========================================
 options = {:ym => Time.now.strftime("%Y%m")}
+all_data = []
+
 result = ATNDS.new(options)
-result.events.each { |data| p "#{data.started_at} : #{data.title} : #{data.event_url}" }
+result.events.each do |data| 
+  all_data << {
+    started: data.started_at ,
+    title: data.title ,
+    url: data.event_url
+  }
+end
 result = Zusaar.new(options)
-result.events.each { |data| p "#{data.started_at} : #{data.title} : #{data.event_url}" }
+result.events.each do |data| 
+  all_data << {
+    started: data.started_at ,
+    title: data.title ,
+    url: data.event_url
+  }
+end
 result = Connpass.new(options)
-result.events.each { |data| p "#{data.started_at} : #{data.title} : #{data.event_url}" }
+result.events.each do |data| 
+  all_data << {
+    started: data.started_at ,
+    title: data.title ,
+    url: data.event_url
+  }
+end
 result = Doorkeeper.new(options)
-result.events.each { |data| p "#{data.starts_at} : #{data.title} : #{data.public_url}" }
+result.events.each do |data| 
+  all_data << {
+    started: data.starts_at ,
+    title: data.title ,
+    url: data.public_url
+  }
+end
+
+sort_res = all_data.sort_by{ |key,data| key[:started] }
+sort_res.each do |val| 
+  puts "#{val[:started]} : #{val[:title]} : #{val[:url]}"
+end
 
